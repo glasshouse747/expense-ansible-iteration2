@@ -5,7 +5,7 @@
 
 - name: Read npm
   ansible.builtin.debug:
-    msg: " {{npm}}"
+    msg: "{{npm}}"
 
 - name: Installation of NodeJS Repos
   ansible.builtin.shell: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
