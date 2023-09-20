@@ -10,18 +10,18 @@
 
 - name: Removing Old Content from Nginx Html Folder
   ansible.builtin.file:
-    path: /usr/share/nginx/html/
+    path: "{{ app_loc }}"
     state: absent
 
 - name: Create an Nginx Html File Directory
   ansible.builtin.file:
-    path: /usr/share/nginx/html/
+    path: "{{ app_loc }}"
     state: directory
 
 - name: Download and Extract Frontend Code
   ansible.builtin.unarchive:
     src: https://expense-artifacts.s3.amazonaws.com/frontend.zip
-    dest: /usr/share/nginx/html
+    dest: "{{ app_loc }}"
     remote_src: yes
 
 - name: Starting Nginx Service
