@@ -8,21 +8,15 @@
     src: expense.conf
     dest: /etc/nginx/default.d/expense.conf
 
-- name: Removing Old Content from Nginx Html Folder
-  ansible.builtin.file:
-    path: "{{ app_loc }}"
-    state: absent
+- name: Update Nginx Config
+  ansible.builtin.template:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
 
-- name: Create an Nginx Html File Directory
-  ansible.builtin.file:
-    path: "{{ app_loc }}"
-    state: directory
-
-- name: Download and Extract Frontend Code
-  ansible.builtin.unarchive:
-    src: https://expense-artifacts.s3.amazonaws.com/frontend.zip
-    dest: "{{ app_loc }}"
-    remote_src: yes
+- name: Include App Pre-requisites
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app_prereq
 
 - name: Starting Nginx Service
   ansible.builtin.systemd:
