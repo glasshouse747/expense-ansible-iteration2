@@ -1,0 +1,49 @@
+- name: Installation of NodeJS Repos
+  ansible.builtin.shell: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
+- name: Install NodeJS
+  ansible.builtin.dnf:
+    name: nodejs
+
+- name: Copy Backend Service File
+  ansible.builtin.copy:
+    src: backend.service
+    dest: /etc/systemd/system/backend.service
+
+- name: Add Application User
+  ansible.builtin.user:
+    name: expense
+
+- name: Clean App Files
+  ansible.builtin.file:
+    path: /app
+    state: absent
+
+- name: Create New Folder Directory for App
+  ansible.builtin.file:
+    path: /app
+    state: directory
+
+- name: Download and Extract Backend Code F
+  ansible.builtin.unarchive:
+    src: https://expense-artifacts.s3.amazonaws.com/backend.zip
+    dest: /app
+    remote_src: yes
+
+- name: Download and Install NodeJS Dependencies for App
+  ansible.builtin.shell: npm install
+  args:
+    chdir: /app
+
+- name: Install MySQL Client Application
+  ansible.builtin.dnf:
+    name: mysql
+
+- name: Load Schema
+  ansible.builtin.shell: mysql -h mysql.mydevops75.online -uroot -pExpenseApp@1 < /app/schema/backend.sql
+
+- name: Start Backend Service Application
+  ansible.builtin.systemd:
+    name: backend
+    state: restarted
+    enabled: yes
+    daemon-reload: yes
