@@ -22,8 +22,13 @@ scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: "prometheus"
 
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  - job_name: "expense"
+
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
 
     static_configs:
-      - targets: ["localhost:9090"]
+      - targets: ["172.31.22.157:9090"]
