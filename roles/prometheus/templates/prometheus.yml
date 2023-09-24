@@ -37,5 +37,5 @@ scrape_configs:
 
     relabel_configs:
       # Use the instance ID as the instance label
-      - source_labels: [ __meta_ec2_instance_id ]
-        target_label: instance
+      - source_labels: [ __meta_ec2_public_ip ]
+        target_label: publicip
