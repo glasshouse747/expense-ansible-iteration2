@@ -14,7 +14,3 @@ receivers:
         auth_username: {{ lookup('aws_ssm', 'prometheus.email.username', region='us-east-1' ) }}
         auth_password: {{ lookup('aws_ssm', 'prometheus.email.password', region='us-east-1' ) }}
         require_tls: true
-
-inhibit_rules:
-  - source_match:
-      severity: 'critical'
