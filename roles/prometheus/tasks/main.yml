@@ -5,7 +5,7 @@
 
 - name: Copy Prometheus Configuration - Record file
   ansible.builtin.template:
-    src: prometheus.yml
+    src: record.yml
     dest: /opt/prometheus/record.yml
 
 - name: Restart Prometheus
